@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Payment Method Lookup</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#1a1a2e;--muted:#6b6b80;--line:#d9d9e3;--ok:#1f7a3d;--okbg:#e3f5e9;--warn:#9a5b00;--warnbg:#fdeecf;--bad:#a33;--badbg:#fbe6e6;--blue:#3a4a8c;--bluebg:#e6e9f7;--red:#b3261e;--redbg:#fce8e6;}
+  *{box-sizing:border-box;}
+  body{font-family:'DM Sans',system-ui,sans-serif;color:var(--ink);margin:0;background:#f7f7fa;}
+  .wrap{max-width:780px;margin:0 auto;padding:28px 24px 60px;}
+  h1{font-family:'Fraunces',Georgia,serif;font-size:30px;font-weight:600;margin:0 0 4px;letter-spacing:-.5px;}
+  .sub{color:var(--muted);margin-bottom:18px;font-size:14px;}
+  .tabs{display:flex;gap:6px;margin-bottom:22px;border-bottom:1.5px solid var(--line);}
+  .tab{padding:9px 16px;border:none;background:none;font-family:inherit;font-size:14px;font-weight:600;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1.5px;}
+  .tab.on{color:var(--ink);border-bottom-color:var(--ink);}
+  .controls{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}
+  label.fld{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-bottom:6px;display:block;}
+  select,input[type=number],textarea{width:100%;padding:11px 12px;border-radius:10px;border:1.5px solid var(--line);font-size:15px;background:#fff;color:var(--ink);font-family:inherit;}
+  textarea{font-family:ui-monospace,Menlo,monospace;font-size:12px;min-height:140px;resize:vertical;}
+  .seg{display:flex;gap:6px;background:#ececf3;padding:4px;border-radius:10px;}
+  .seg button{flex:1;padding:9px 0;border:none;border-radius:7px;font-size:14px;font-weight:600;cursor:pointer;background:transparent;color:var(--muted);font-family:inherit;}
+  .seg button.on{background:var(--ink);color:#fff;}
+  .check{display:flex;align-items:center;gap:8px;font-size:14px;cursor:pointer;user-select:none;}
+  .banner{background:#f3f1fb;border:1.5px solid #e3def5;border-radius:10px;padding:10px 14px;font-size:13px;margin:16px 0;}
+  .section{font-family:'Fraunces',serif;font-size:17px;font-weight:600;margin:22px 0 10px;}
+  .card{border:1.5px solid #ececf0;background:#fafafb;border-radius:12px;padding:13px 15px;margin-bottom:8px;opacity:.62;}
+  .card.ok{border-color:#cde6d4;background:#fff;opacity:1;}
+  .mhead{display:flex;justify-content:space-between;align-items:baseline;gap:10px;}
+  .mname{font-weight:600;font-size:15px;}
+  .mprov{font-size:12px;color:#8a8a9c;}
+  .limits{font-size:13px;color:#555;margin-top:4px;}
+  .pill{font-size:11px;font-weight:600;padding:2px 8px;border-radius:20px;white-space:nowrap;}
+  .hint{color:#9a9aac;font-size:14px;margin-top:30px;text-align:center;}
+  .foot{font-size:11px;color:#a9a9b8;margin-top:24px;border-top:1px solid var(--line);padding-top:12px;}
+  .none{color:var(--warn);font-size:14px;}
+  .btn{padding:10px 18px;border:none;border-radius:9px;background:var(--ink);color:#fff;font-family:inherit;font-size:14px;font-weight:600;cursor:pointer;}
+  .btn.sec{background:#ececf3;color:var(--ink);}
+  .gen-step{font-size:13px;color:var(--muted);margin:14px 0 6px;font-weight:600;}
+  .gen-out{margin-top:14px;}
+  .ok-msg{color:var(--ok);font-size:13px;font-weight:600;margin-top:8px;}
+  .err-msg{color:var(--bad);font-size:13px;margin-top:8px;}
+  @media (max-width:560px){.controls{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Payment Method Lookup</h1>
+  <div class="sub">Выбери страну и сумму — увидишь доступные методы. Источник данных: страница Cashier Operations.</div>
+  <div id="syncDate" style="display:inline-block;font-size:12px;font-weight:600;color:var(--muted);background:#ececf3;padding:4px 10px;border-radius:20px;margin-bottom:16px;"></div>
+
+  <div class="tabs">
+    <button class="tab on" data-tab="lookup">🔎 Поиск методов</button>
+    <button class="tab" data-tab="update">🛠 Обновить данные</button>
+  </div>
+
+  <!-- ===== LOOKUP TAB ===== -->
+  <div id="tab-lookup">
+    <div class="controls">
+      <div>
+        <label class="fld">Страна</label>
+        <select id="country"><option value="">Выбери страну…</option></select>
+      </div>
+      <div>
+        <label class="fld">Сумма <span id="curlbl"></span></label>
+        <input id="amount" type="number" placeholder="напр. 100">
+      </div>
+    </div>
+    <div class="controls" style="margin-bottom:14px;">
+      <div>
+        <label class="fld">Транзакция</label>
+        <div class="seg" id="seg">
+          <button data-v="deposit" class="on">Депозит</button>
+          <button data-v="withdrawal">Вывод</button>
+        </div>
+      </div>
+      <div style="display:flex;align-items:flex-end;">
+        <label class="check" id="fdwrap" style="margin-bottom:9px;">
+          <input type="checkbox" id="firstDeposit"> Первый депозит игрока
+        </label>
+      </div>
+    </div>
+    <div id="out"><div class="hint">Выбери страну, чтобы начать.</div></div>
+  </div>
+
+  <!-- ===== UPDATE TAB ===== -->
+  <div id="tab-update" style="display:none;">
+    <div class="banner">
+      <strong>Как обновить лимиты после изменений payments:</strong><br>
+      1. Открой страницу Cashier Operations в Confluence.<br>
+      2. Выдели нужную таблицу страны целиком (с шапкой Provider/Method/…) и скопируй (Ctrl+C).<br>
+      3. Вставь сюда ↓, выбери страну, нажми «Сгенерировать».<br>
+      4. Скопируй полученный блок и пришли мне — я обновлю файл. Либо замени вручную в коде (блок DATA).
+    </div>
+    <div class="controls" style="grid-template-columns:1fr;">
+      <div>
+        <label class="fld">Для какой страны эта таблица</label>
+        <select id="genCountry">
+          <option value="Russia">Russia</option>
+          <option value="India">India</option>
+          <option value="Kazakhstan">Kazakhstan</option>
+          <option value="Uzbekistan">Uzbekistan</option>
+          <option value="Chile">Chile</option>
+          <option value="general">General / International</option>
+        </select>
+      </div>
+    </div>
+    <div class="gen-step">Вставь скопированную таблицу:</div>
+    <textarea id="genInput" placeholder="Provider	Method	Method name in Cashier	...	Min Deposit	Max Deposit	Min Withdrawal	Max Withdrawal&#10;0xProcessing	Crypto	...	$10.00	$5,000.00	$20.00	$3,000.00"></textarea>
+    <div style="margin-top:12px;display:flex;gap:10px;">
+      <button class="btn" id="genBtn">Сгенерировать</button>
+      <button class="btn sec" id="genCopy" style="display:none;">Скопировать результат</button>
+    </div>
+    <div id="genMsg"></div>
+    <div class="gen-out"><textarea id="genOutput" style="display:none;" readonly></textarea></div>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   DATA — выверено по Cashier Operations (page 75333720), v78.
+   Чтобы обновить: используй вкладку «Обновить данные» или
+   замени объект DATA целиком.
+   ============================================================ */
+const DATA = {
+  "_meta": {
+    "source": "Cashier Operations: PSP Deposits, Withdrawals & Limits (page 75333720)",
+    "lastSynced": "2026-06-25",
+    "sourceVersion": 78,
+    "note": "Источник истины — страница Cashier Operations. Обновлять через встроенный генератор."
+  },
+  "generalWithdrawalLimits": "До $3,000/день · $10,000/неделя · $25,000/месяц",
+  "firstDepositLabels": {
+    "yes": { "label": "OK на 1-й депозит", "color": "green" },
+    "no": { "label": "Только повторным клиентам", "color": "yellow" },
+    "conditional": { "label": "1-й депозит: только PS Sochi", "color": "yellow" },
+    "withdrawal": { "label": "Только вывод", "color": "blue" },
+    "twoDeposits": { "label": "Только после 2+ депозитов", "color": "red" }
+  },
+  "general": {
+    "currency": "USD", "symbol": "$",
+    "methods": [
+      { "method": "Crypto", "type": "Crypto", "provider": "0xProcessing", "minD": 10, "maxD": 5000, "minW": 20, "maxW": 3000, "fd": "yes" },
+      { "method": "Bybit Pay QR Desktop", "type": "Crypto", "provider": "BBPay", "minD": 10, "maxD": 10000, "minW": null, "maxW": null, "fd": "yes" },
+      { "method": "Luxon Pay", "type": "Digital wallet", "provider": "Luxon Pay", "minD": 10, "maxD": 5000, "minW": 20, "maxW": 3000, "fd": "yes" },
+      { "method": "Piastrix", "type": "Digital wallet", "provider": "Piastrix", "minD": 10, "maxD": 5000, "minW": 20, "maxW": 3000, "fd": "yes" },
+      { "method": "Skrill", "type": "Digital wallet", "provider": "Skrill", "minD": 10, "maxD": 5000, "minW": 20, "maxW": 3000, "fd": "yes" }
+    ]
+  },
+  "generalCountries": ["Algeria","Argentina","Azerbaijan","Bahamas","Bangladesh","Bolivia","Botswana","Brazil","Bulgaria","Cambodia","Cameroon","Canada","Colombia","Congo","Congo DR","Costa Rica","Croatia","Denmark","Dominican Republic","Ecuador","Egypt","El Salvador","Ethiopia","Honduras","Indonesia","Jamaica","Kenya","Kyrgystan","Libya","Malaysia","Mexico","Moldova","Mongolia","Morocco","Namibia","Nicaragua","Niger","Nigeria","Norway","Pakistan","Panama","Papua New Guinea","Paraguay","Peru","Philippines","Poland","Samoa","Senegal","Somalia","South Africa","South Sudan","Sri Lanka","Sudan","Sweden","Tajikistan","Tanzania","Togo","Tunisia","Turkmenistan","Uganda","Uruguay","Venezuela","Vietnam"],
+  "local": {
+    "Russia": {
+      "currency": "USD", "symbol": "$",
+      "deposits": [
+        { "method": "Sberpay SBP", "type": "Transfer via phone CIS", "provider": "Paystar", "minD": 15, "maxD": 1300, "fd": "yes" },
+        { "method": "T-Pay SBP", "type": "Transfer via QR", "provider": "Paystar", "minD": 5, "maxD": 3500, "fd": "yes" },
+        { "method": "T-Pay", "type": "Transfer via QR", "provider": "Paystar", "minD": 5, "maxD": 3500, "fd": "conditional" },
+        { "method": "VTB Pay SBP", "type": "Transfer via QR", "provider": "Paystar", "minD": 15, "maxD": 3500, "fd": "yes" },
+        { "method": "VTB Pay", "type": "Transfer via QR", "provider": "Paystar", "minD": 15, "maxD": 3500, "fd": "conditional" },
+        { "method": "Alfa Pay SBP", "type": "Transfer via phone", "provider": "Paystar", "minD": 15, "maxD": 640, "fd": "yes" },
+        { "method": "Alfa Pay", "type": "Transfer via phone", "provider": "Paystar", "minD": 15, "maxD": 640, "fd": "no" },
+        { "method": "GazpromPay SBP", "type": "Transfer via phone CIS", "provider": "Paystar", "minD": 5, "maxD": 1300, "fd": "yes" },
+        { "method": "GazpromPay", "type": "Transfer via phone CIS", "provider": "Paystar", "minD": 5, "maxD": 640, "fd": "no" },
+        { "method": "PSB Pay", "type": "Transfer via phone CIS", "provider": "Paystar", "minD": 15, "maxD": 640, "fd": "conditional" },
+        { "method": "Sovcombank", "type": "Transfer via phone CIS", "provider": "Paystar", "minD": 15, "maxD": 500, "fd": "conditional" },
+        { "method": "SBP", "type": "Transfer via phone", "provider": "Paystar", "minD": 45, "maxD": 1850, "fd": "yes" },
+        { "method": "Card Transfer", "type": "Transfer via card", "provider": "Paystar", "minD": 45, "maxD": 3500, "fd": "yes" },
+        { "method": "SBP Transgran", "type": "Transfer via phone CIS", "provider": "Paystar", "minD": 15, "maxD": 3000, "fd": "conditional" },
+        { "method": "Sberpay", "type": "Transfer via QR", "provider": "Paystar", "minD": 5, "maxD": 1700, "fd": "conditional" },
+        { "method": "Mobile Top-Up", "type": "Transfer via phone", "provider": "Paystar", "minD": 5, "maxD": 70, "fd": "yes" },
+        { "method": "Crypto", "type": "Crypto", "provider": "0xProcessing", "minD": 5, "maxD": 5000, "minW": 20, "maxW": 3000, "fd": "yes" },
+        { "method": "Bybit Pay QR Desktop", "type": "Crypto", "provider": "BBPay", "minD": 10, "maxD": 10000, "fd": "yes" },
+        { "method": "Luxon Pay", "type": "Digital wallet", "provider": "Luxon Pay", "minD": 10, "maxD": 5000, "minW": 20, "maxW": 3000, "fd": "yes" },
+        { "method": "Piastrix", "type": "Digital wallet", "provider": "Piastrix", "minD": 10, "maxD": 5000, "minW": 20, "maxW": 3000, "fd": "yes" }
+      ],
+      "withdrawals": [
+        { "method": "Card Transfer", "type": "Withdrawal via card", "provider": "Paystar", "minW": 70, "maxW": 1000 },
+        { "method": "Card Transfer", "type": "Withdrawal via card", "provider": "Octopays", "minW": 65, "maxW": 1500 },
+        { "method": "Card Transfer / SBP", "type": "Withdrawal via card/phone", "provider": "Payport", "minW": 65, "maxW": 2500 },
+        { "method": "Card Transfer", "type": "Withdrawal via card", "provider": "Paycos", "minW": 65, "maxW": 1500 }
+      ]
+    },
+    "India": {
+      "currency": "INR", "symbol": "₹",
+      "deposits": [
+        { "method": "Crypto", "type": "Crypto", "provider": "0xProcessing", "minD": 500, "maxD": 500000, "minW": 2000, "maxW": 500000, "fd": "yes" },
+        { "method": "Bybit Pay QR Desktop", "type": "Crypto", "provider": "BBPay", "minD": 10, "maxD": 10000, "fd": "yes", "note": "лимиты в USD" },
+        { "method": "Skrill", "type": "Digital wallet", "provider": "Skrill", "minD": 500, "maxD": 265000, "minW": 1000, "maxW": 265000, "fd": "yes" },
+        { "method": "Luxon Pay", "type": "Digital wallet", "provider": "Luxon Pay", "minD": 500, "maxD": 420000, "minW": 1000, "maxW": 200000, "fd": "yes" },
+        { "method": "UPI", "type": "UPI", "provider": "Paystar", "minD": 500, "maxD": 50000, "fd": "yes" },
+        { "method": "Paytm", "type": "Paytm", "provider": "Paystar", "minD": 500, "maxD": 50000, "fd": "yes" },
+        { "method": "PhonePe", "type": "PhonePe", "provider": "Paystar", "minD": 500, "maxD": 50000, "fd": "yes" },
+        { "method": "Google Pay", "type": "Google Pay", "provider": "Paystar", "minD": 500, "maxD": 50000, "fd": "yes" },
+        { "method": "UPI (A-Pay)", "type": "P2P", "provider": "A-Pay", "minD": 1000, "maxD": 50000, "fd": "yes" },
+        { "method": "Paytm (A-Pay)", "type": "P2P", "provider": "A-Pay", "minD": 1000, "maxD": 50000, "fd": "yes" },
+        { "method": "PhonePe (A-Pay)", "type": "P2P", "provider": "A-Pay", "minD": 1000, "maxD": 50000, "fd": "yes" },
+        { "method": "IMPS", "type": "Bank Transfer", "provider": "A-Pay", "minW": 1000, "maxW": 100000, "fd": "withdrawal" },
+        { "method": "UPI (FXMB)", "type": "P2P", "provider": "FXMB", "minD": 500, "maxD": 50000, "minW": 1000, "maxW": 50000, "fd": "yes" },
+        { "method": "UPI (Payok)", "type": "P2P", "provider": "Payok", "minD": 500, "maxD": 50000, "minW": 1000, "maxW": 50000, "fd": "yes" }
+      ],
+      "withdrawals": []
+    },
+    "Kazakhstan": {
+      "currency": "USD", "symbol": "$",
+      "deposits": [
+        { "method": "Crypto", "type": "Crypto", "provider": "0xProcessing", "minD": 10, "maxD": 5000, "minW": 20, "maxW": 3000, "fd": "yes" },
+        { "method": "Bybit Pay QR Desktop", "type": "Crypto", "provider": "BBPay", "minD": 10, "maxD": 10000, "fd": "yes" },
+        { "method": "Card Deposit", "type": "P2P/Direct card", "provider": "Payport", "minD": 5, "maxD": 2200, "fd": "yes" },
+        { "method": "VISA Mastercard Withdrawal", "type": "Direct card", "provider": "Interkassa", "minD": 10, "maxD": 950, "minW": 50, "maxW": 950, "fd": "twoDeposits" },
+        { "method": "Luxon Pay", "type": "Digital wallet", "provider": "Luxon Pay", "minD": 10, "maxD": 5000, "minW": 20, "maxW": 3000, "fd": "yes" },
+        { "method": "Piastrix", "type": "Digital wallet", "provider": "Piastrix", "minD": 10, "maxD": 5000, "minW": 20, "maxW": 3000, "fd": "yes" }
+      ],
+      "withdrawals": []
+    },
+    "Uzbekistan": {
+      "currency": "USD", "symbol": "$",
+      "deposits": [
+        { "method": "Crypto", "type": "Crypto", "provider": "Coinpayments", "minD": 25, "maxD": 5000, "minW": 50, "maxW": 3000, "fd": "yes" },
+        { "method": "Bybit Pay QR Desktop", "type": "Crypto", "provider": "BBPay", "minD": 10, "maxD": 10000, "fd": "yes" },
+        { "method": "UZCARD", "type": "Transfer via card", "provider": "Paystar", "minD": 5, "maxD": 5500, "fd": "yes" },
+        { "method": "HUMO", "type": "Transfer via card", "provider": "Paystar", "minD": 5, "maxD": 2500, "fd": "yes" },
+        { "method": "Card Transfer", "type": "Transfer via card", "provider": "Octopays", "minD": 5, "maxD": 2000, "minW": 65, "maxW": 1500, "fd": "yes" },
+        { "method": "Luxon Pay", "type": "Digital wallet", "provider": "Luxon Pay", "minD": 10, "maxD": 5000, "minW": 20, "maxW": 3000, "fd": "yes" },
+        { "method": "Skrill", "type": "Digital wallet", "provider": "Skrill", "minD": 10, "maxD": 5000, "minW": 20, "maxW": 3000, "fd": "yes" },
+        { "method": "Piastrix", "type": "Digital wallet", "provider": "Piastrix", "minD": 10, "maxD": 5000, "minW": 20, "maxW": 3000, "fd": "yes" }
+      ],
+      "withdrawals": []
+    },
+    "Chile": {
+      "currency": "USD", "symbol": "$",
+      "deposits": [
+        { "method": "Crypto", "type": "Crypto", "provider": "Coinpayments", "minD": 25, "maxD": 5000, "minW": 50, "maxW": 3000, "fd": "yes" },
+        { "method": "Fast Deposit (Card)", "type": "Direct card", "provider": "Pagsmile", "minD": 5, "maxD": 1100, "fd": "yes" },
+        { "method": "Fast Deposit (Mach)", "type": "Digital wallet", "provider": "Pagsmile", "minD": 5, "maxD": 1100, "fd": "yes" },
+        { "method": "Fast Deposit (Webpay)", "type": "Digital wallet", "provider": "Pagsmile", "minD": 5, "maxD": 1100, "fd": "yes" },
+        { "method": "Fast Deposit (Khipu)", "type": "Digital wallet", "provider": "Pagsmile", "minD": 5, "maxD": 290, "fd": "yes" },
+        { "method": "Bank Transfer", "type": "Bank Transfer", "provider": "Pagsmile", "minW": 10, "maxW": 1500, "fd": "withdrawal" },
+        { "method": "Bybit Pay QR Desktop", "type": "Crypto", "provider": "BBPay", "minD": 10, "maxD": 10000, "fd": "yes" },
+        { "method": "Luxon Pay", "type": "Digital wallet", "provider": "Luxon Pay", "minD": 10, "maxD": 5000, "minW": 20, "maxW": 3000, "fd": "yes" },
+        { "method": "Skrill", "type": "Digital wallet", "provider": "Skrill", "minD": 10, "maxD": 5000, "minW": 20, "maxW": 3000, "fd": "yes" }
+      ],
+      "withdrawals": []
+    }
+  }
+};
+
+/* ===================== LOOKUP LOGIC ===================== */
+document.getElementById("syncDate").textContent="🔄 Данные обновлены: "+DATA._meta.lastSynced;
+const ALL=[...Object.keys(DATA.local),...DATA.generalCountries].sort();
+let txn="deposit";
+const fmt=(s,v)=>v==null?"—":s+Number(v).toLocaleString();
+
+const sel=document.getElementById("country");
+ALL.forEach(c=>{const o=document.createElement("option");o.value=c;o.textContent=c+(DATA.local[c]?"  ★ локальные методы":"");sel.appendChild(o);});
+
+document.querySelectorAll("#seg button").forEach(b=>{b.addEventListener("click",()=>{document.querySelectorAll("#seg button").forEach(x=>x.classList.remove("on"));b.classList.add("on");txn=b.dataset.v;document.getElementById("fdwrap").style.display=txn==="deposit"?"flex":"none";render();});});
+["country","amount","firstDeposit"].forEach(id=>document.getElementById(id).addEventListener("input",render));
+
+document.querySelectorAll(".tab").forEach(t=>{t.addEventListener("click",()=>{document.querySelectorAll(".tab").forEach(x=>x.classList.remove("on"));t.classList.add("on");const tab=t.dataset.tab;document.getElementById("tab-lookup").style.display=tab==="lookup"?"block":"none";document.getElementById("tab-update").style.display=tab==="update"?"block":"none";});});
+
+function fdPill(fd){const L=DATA.firstDepositLabels[fd];if(!L)return null;return [L.label,"var(--"+L.color+")","var(--"+L.color+"bg)"];}
+
+function render(){
+  const country=sel.value,out=document.getElementById("out");
+  const amtRaw=document.getElementById("amount").value;
+  const amt=amtRaw===""?null:parseFloat(amtRaw);
+  const firstDeposit=document.getElementById("firstDeposit").checked;
+  if(!country){out.innerHTML='<div class="hint">Выбери страну, чтобы начать.</div>';document.getElementById("curlbl").textContent="";return;}
+  const isLocal=!!DATA.local[country];
+  const market=isLocal?DATA.local[country]:{currency:"USD",symbol:"$"};
+  const sym=market.symbol;
+  document.getElementById("curlbl").textContent="("+market.currency+")";
+  let pool;
+  if(isLocal){
+    if(txn==="withdrawal"&&market.withdrawals.length)pool=[...market.deposits.filter(m=>m.minW!=null),...market.withdrawals];
+    else pool=market.deposits;
+  }else pool=DATA.general.methods;
+  const rows=pool.map(m=>{
+    const reasons=[];let eligible=true;
+    if(txn==="deposit"){
+      if(m.minD==null){eligible=false;reasons.push("не метод депозита");}
+      else if(amt!=null){
+        if(amt<m.minD){eligible=false;reasons.push("ниже мин "+fmt(sym,m.minD));}
+        if(m.maxD!=null&&amt>m.maxD){eligible=false;reasons.push("выше макс "+fmt(sym,m.maxD));}
+      }
+      if(firstDeposit&&eligible){
+        if(m.fd==="no"){eligible=false;reasons.push("только повторным");}
+        if(m.fd==="conditional")reasons.push("1-й депозит: только PS Sochi");
+        if(m.fd==="withdrawal"){eligible=false;reasons.push("только вывод");}
+        if(m.fd==="twoDeposits"){eligible=false;reasons.push("нужно 2+ депозита");}
+      }
+    }else{
+      if(m.minW==null){eligible=false;reasons.push("не метод вывода");}
+      else if(amt!=null){
+        if(amt<m.minW){eligible=false;reasons.push("ниже мин "+fmt(sym,m.minW));}
+        if(m.maxW!=null&&amt>m.maxW){eligible=false;reasons.push("выше макс "+fmt(sym,m.maxW));}
+      }
+    }
+    return{m,eligible,reasons};
+  });
+  const ok=rows.filter(r=>r.eligible),bad=rows.filter(r=>!r.eligible),isW=txn==="withdrawal";
+  let html='<div class="banner">';
+  html+=isLocal?'<strong>'+country+'</strong> — локальные методы (валюта: '+market.currency+').':'<strong>'+country+'</strong> — общие / международные методы (USD). Лимиты вывода: '+DATA.generalWithdrawalLimits+'.';
+  if(amt!=null)html+=' Показаны методы для <strong>'+fmt(sym,amt)+'</strong> ('+(isW?"вывод":"депозит")+').';
+  html+='</div>';
+  html+='<div class="section">✅ Доступно ('+ok.length+')</div>';
+  if(!ok.length)html+='<div class="none">Нет методов под эту сумму/транзакцию. Проверь список ниже с лимитами.</div>';
+  ok.forEach(r=>{const m=r.m,b=txn==="deposit"?fdPill(m.fd):null;
+    html+='<div class="card ok"><div class="mhead"><div><span class="mname">'+m.method+'</span> <span class="mprov">· '+m.type+' · '+m.provider+'</span></div>';
+    if(b)html+='<span class="pill" style="color:'+b[1]+';background:'+b[2]+'">'+b[0]+'</span>';
+    html+='</div><div class="limits">';
+    html+=isW?'Вывод: '+fmt(sym,m.minW)+' – '+fmt(sym,m.maxW):'Депозит: '+fmt(sym,m.minD)+' – '+fmt(sym,m.maxD);
+    if(m.note)html+=' · <em>'+m.note+'</em>';
+    if(r.reasons.length)html+=' · прим.: '+r.reasons.join(", ");
+    html+='</div></div>';});
+  if(bad.length){
+    html+='<div class="section">🚫 Недоступно ('+bad.length+')</div>';
+    bad.forEach(r=>{const m=r.m;
+      html+='<div class="card"><div class="mhead"><div><span class="mname">'+m.method+'</span> <span class="mprov">· '+m.provider+'</span></div>';
+      html+='<span class="pill" style="color:var(--bad);background:var(--badbg)">'+r.reasons[0]+'</span></div><div class="limits">';
+      html+=isW?'Вывод: '+fmt(sym,m.minW)+' – '+fmt(sym,m.maxW):'Депозит: '+fmt(sym,m.minD)+' – '+fmt(sym,m.maxD);
+      html+='</div></div>';});
+  }
+  html+='<div class="foot">Данные синхронизированы с Cashier Operations '+DATA._meta.lastSynced+'. При изменениях payments — обнови через вкладку «Обновить данные».</div>';
+  out.innerHTML=html;
+}
+
+/* ===================== GENERATOR LOGIC ===================== */
+function parseMoney(s){s=(s||"").trim();if(s===""||s==="-"||s==="—")return null;const n=parseFloat(s.replace(/[^0-9.]/g,""));return isNaN(n)?null:n;}
+function detectFd(uncompleted,firstDep){
+  // firstDep столбец содержит plus/minus + текст
+  const t=(firstDep||"").toLowerCase();
+  const hasPlus=t.includes("plus")||t.includes("+")||t.includes("✅")||t.trim()==="";
+  if(t.includes("two")||t.includes("least two")||t.includes("2 deposit")||t.includes("два"))return "twoDeposits";
+  const sochi=t.includes("sochi");
+  const repeat=t.includes("at least one")||t.includes("made at least")||t.includes("repeat")||t.includes("повтор");
+  if(t.includes("minus")||t.includes("−")||t.includes("-")){
+    if(sochi)return "conditional";
+    if(repeat)return "no";
+    return "no";
+  }
+  if(sochi)return "conditional";
+  return "yes";
+}
+document.getElementById("genBtn").addEventListener("click",()=>{
+  const raw=document.getElementById("genInput").value;
+  const country=document.getElementById("genCountry").value;
+  const msg=document.getElementById("genMsg");
+  const outEl=document.getElementById("genOutput");
+  const copyBtn=document.getElementById("genCopy");
+  if(!raw.trim()){msg.innerHTML='<div class="err-msg">Вставь таблицу сначала.</div>';return;}
+  const lines=raw.split("\n").map(l=>l.trim()).filter(l=>l.length);
+  const rows=[];
+  for(const line of lines){
+    const cells=line.split("\t").map(c=>c.trim());
+    if(cells.length<7)continue;
+    if(/provider/i.test(cells[0]))continue; // шапка
+    const provider=cells[0];
+    const type=cells[1];
+    // method name в колонке 2 может содержать "![](...)Имя" — берём хвост
+    let method=cells[2].replace(/!\[\]\([^)]*\)/g,"").trim();
+    const uncompleted=cells[3]||"";
+    const firstDep=cells[4]||"";
+    const minD=parseMoney(cells[5]);
+    const maxD=parseMoney(cells[6]);
+    const minW=parseMoney(cells[7]);
+    const maxW=parseMoney(cells[8]);
+    if(!provider||!method)continue;
+    const obj={method,type,provider,minD,maxD};
+    if(minW!=null)obj.minW=minW;
+    if(maxW!=null)obj.maxW=maxW;
+    obj.fd=detectFd(uncompleted,firstDep);
+    rows.push(obj);
+  }
+  if(!rows.length){msg.innerHTML='<div class="err-msg">Не удалось распознать строки. Убедись, что копируешь таблицу из Confluence целиком (колонки разделяются табами).</div>';return;}
+  const json=JSON.stringify(rows,null,2);
+  let label=country==="general"?'DATA.general.methods':'DATA.local["'+country+'"].deposits';
+  const today=new Date().toISOString().slice(0,10);
+  outEl.value="// "+country+" — вставить как "+label+"\n"+json+
+    "\n\n// + не забудь обновить дату в начале файла:\n// \"lastSynced\": \""+today+"\","+
+    "\n// (найди строку lastSynced в блоке _meta и поставь "+today+")";
+  outEl.style.display="block";copyBtn.style.display="inline-block";
+  msg.innerHTML='<div class="ok-msg">Распознано методов: '+rows.length+'. Дата обновления: '+today+'. Проверь ярлыки first-deposit — генератор угадывает их по тексту, иногда нужна ручная правка.</div>';
+});
+document.getElementById("genCopy").addEventListener("click",()=>{const o=document.getElementById("genOutput");o.select();document.execCommand("copy");document.getElementById("genMsg").innerHTML='<div class="ok-msg">Скопировано в буфер.</div>';});
+</script>
+</body>
+</html>

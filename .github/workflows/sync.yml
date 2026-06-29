@@ -1,12 +1,13 @@
+файл → карандаш (Edit) → выдели всё (Ctrl+A) → удали → вставь ровно это:
 yamlname: Sync payment data from Confluence
 
 on:
   schedule:
-    - cron: "0 6 * * *"   # каждый день в 06:00 UTC
-  workflow_dispatch: {}    # кнопка "Run workflow" вручную
+    - cron: "0 6 * * *"
+  workflow_dispatch:
 
 permissions:
-  contents: write          # чтобы коммитить methods.json обратно
+  contents: write
 
 jobs:
   sync:
@@ -28,12 +29,12 @@ jobs:
 
       - name: Commit if changed
         run: |
-          git config user.name  "payment-lookup-bot"
+          git config user.name "payment-lookup-bot"
           git config user.email "actions@github.com"
           if git diff --quiet -- data/methods.json; then
-            echo "Изменений нет — коммит не нужен."
+            echo "No changes."
           else
             git add data/methods.json
-            git commit -m "chore: sync payment data from Confluence ($(date -u +%Y-%m-%d))"
+            git commit -m "chore: sync payment data from Confluence"
             git push
           fi

@@ -1,0 +1,39 @@
+yamlname: Sync payment data from Confluence
+
+on:
+  schedule:
+    - cron: "0 6 * * *"   # каждый день в 06:00 UTC
+  workflow_dispatch: {}    # кнопка "Run workflow" вручную
+
+permissions:
+  contents: write          # чтобы коммитить methods.json обратно
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Run sync
+        env:
+          CONF_BASE: ${{ secrets.CONF_BASE }}
+          CONF_EMAIL: ${{ secrets.CONF_EMAIL }}
+          CONF_TOKEN: ${{ secrets.CONF_TOKEN }}
+          PAGE_ID: "75333720"
+        run: node scripts/sync.mjs
+
+      - name: Commit if changed
+        run: |
+          git config user.name  "payment-lookup-bot"
+          git config user.email "actions@github.com"
+          if git diff --quiet -- data/methods.json; then
+            echo "Изменений нет — коммит не нужен."
+          else
+            git add data/methods.json
+            git commit -m "chore: sync payment data from Confluence ($(date -u +%Y-%m-%d))"
+            git push
+          fi

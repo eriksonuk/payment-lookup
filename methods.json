@@ -1,0 +1,716 @@
+{
+  "_meta": {
+    "source": "Cashier Operations: PSP Deposits, Withdrawals & Limits (page 75333720)",
+    "sourcePageId": "75333720",
+    "lastSynced": "2026-06-25",
+    "sourceVersion": 82,
+    "syncedBy": "manual-seed"
+  },
+  "generalWithdrawalLimits": "До $3,000/день · $10,000/неделя · $25,000/месяц",
+  "firstDepositLabels": {
+    "yes": {
+      "label": "OK на 1-й депозит",
+      "color": "green"
+    },
+    "no": {
+      "label": "Только повторным клиентам",
+      "color": "yellow"
+    },
+    "conditional": {
+      "label": "1-й депозит: только PS Sochi",
+      "color": "yellow"
+    },
+    "withdrawal": {
+      "label": "Только вывод",
+      "color": "blue"
+    },
+    "twoDeposits": {
+      "label": "Только после 2+ депозитов",
+      "color": "red"
+    }
+  },
+  "general": {
+    "currency": "USD",
+    "symbol": "$",
+    "methods": [
+      {
+        "method": "Crypto",
+        "type": "Crypto",
+        "provider": "0xProcessing",
+        "minD": 10,
+        "maxD": 5000,
+        "minW": 20,
+        "maxW": 3000,
+        "fd": "yes"
+      },
+      {
+        "method": "Bybit Pay QR Desktop",
+        "type": "Crypto",
+        "provider": "BBPay",
+        "minD": 10,
+        "maxD": 10000,
+        "minW": null,
+        "maxW": null,
+        "fd": "yes"
+      },
+      {
+        "method": "Luxon Pay",
+        "type": "Digital wallet",
+        "provider": "Luxon Pay",
+        "minD": 10,
+        "maxD": 5000,
+        "minW": 20,
+        "maxW": 3000,
+        "fd": "yes"
+      },
+      {
+        "method": "Piastrix",
+        "type": "Digital wallet",
+        "provider": "Piastrix",
+        "minD": 10,
+        "maxD": 5000,
+        "minW": 20,
+        "maxW": 3000,
+        "fd": "yes"
+      },
+      {
+        "method": "Skrill",
+        "type": "Digital wallet",
+        "provider": "Skrill",
+        "minD": 10,
+        "maxD": 5000,
+        "minW": 20,
+        "maxW": 3000,
+        "fd": "yes"
+      }
+    ]
+  },
+  "generalCountries": [
+    "Algeria",
+    "Argentina",
+    "Azerbaijan",
+    "Bahamas",
+    "Bangladesh",
+    "Bolivia",
+    "Botswana",
+    "Brazil",
+    "Bulgaria",
+    "Cambodia",
+    "Cameroon",
+    "Canada",
+    "Colombia",
+    "Congo",
+    "Congo DR",
+    "Costa Rica",
+    "Croatia",
+    "Denmark",
+    "Dominican Republic",
+    "Ecuador",
+    "Egypt",
+    "El Salvador",
+    "Ethiopia",
+    "Honduras",
+    "Indonesia",
+    "Jamaica",
+    "Kenya",
+    "Kyrgystan",
+    "Libya",
+    "Malaysia",
+    "Mexico",
+    "Moldova",
+    "Mongolia",
+    "Morocco",
+    "Namibia",
+    "Nicaragua",
+    "Niger",
+    "Nigeria",
+    "Norway",
+    "Pakistan",
+    "Panama",
+    "Papua New Guinea",
+    "Paraguay",
+    "Peru",
+    "Philippines",
+    "Poland",
+    "Samoa",
+    "Senegal",
+    "Somalia",
+    "South Africa",
+    "South Sudan",
+    "Sri Lanka",
+    "Sudan",
+    "Sweden",
+    "Tajikistan",
+    "Tanzania",
+    "Togo",
+    "Tunisia",
+    "Turkmenistan",
+    "Uganda",
+    "Uruguay",
+    "Venezuela",
+    "Vietnam"
+  ],
+  "local": {
+    "Russia": {
+      "currency": "USD",
+      "symbol": "$",
+      "deposits": [
+        {
+          "method": "Sberpay SBP",
+          "type": "Transfer via phone CIS",
+          "provider": "Paystar",
+          "minD": 15,
+          "maxD": 1300,
+          "fd": "yes"
+        },
+        {
+          "method": "T-Pay SBP",
+          "type": "Transfer via QR",
+          "provider": "Paystar",
+          "minD": 5,
+          "maxD": 3500,
+          "fd": "yes"
+        },
+        {
+          "method": "T-Pay",
+          "type": "Transfer via QR",
+          "provider": "Paystar",
+          "minD": 5,
+          "maxD": 3500,
+          "fd": "conditional"
+        },
+        {
+          "method": "VTB Pay SBP",
+          "type": "Transfer via QR",
+          "provider": "Paystar",
+          "minD": 15,
+          "maxD": 3500,
+          "fd": "yes"
+        },
+        {
+          "method": "VTB Pay",
+          "type": "Transfer via QR",
+          "provider": "Paystar",
+          "minD": 15,
+          "maxD": 3500,
+          "fd": "conditional"
+        },
+        {
+          "method": "Alfa Pay SBP",
+          "type": "Transfer via phone",
+          "provider": "Paystar",
+          "minD": 15,
+          "maxD": 640,
+          "fd": "yes"
+        },
+        {
+          "method": "Alfa Pay",
+          "type": "Transfer via phone",
+          "provider": "Paystar",
+          "minD": 15,
+          "maxD": 640,
+          "fd": "no"
+        },
+        {
+          "method": "GazpromPay SBP",
+          "type": "Transfer via phone CIS",
+          "provider": "Paystar",
+          "minD": 5,
+          "maxD": 1300,
+          "fd": "yes"
+        },
+        {
+          "method": "GazpromPay",
+          "type": "Transfer via phone CIS",
+          "provider": "Paystar",
+          "minD": 5,
+          "maxD": 640,
+          "fd": "no"
+        },
+        {
+          "method": "PSB Pay",
+          "type": "Transfer via phone CIS",
+          "provider": "Paystar",
+          "minD": 15,
+          "maxD": 640,
+          "fd": "conditional"
+        },
+        {
+          "method": "Sovcombank",
+          "type": "Transfer via phone CIS",
+          "provider": "Paystar",
+          "minD": 15,
+          "maxD": 500,
+          "fd": "conditional"
+        },
+        {
+          "method": "SBP",
+          "type": "Transfer via phone",
+          "provider": "Paystar",
+          "minD": 45,
+          "maxD": 1850,
+          "fd": "yes"
+        },
+        {
+          "method": "Card Transfer",
+          "type": "Transfer via card",
+          "provider": "Paystar",
+          "minD": 45,
+          "maxD": 3500,
+          "fd": "yes"
+        },
+        {
+          "method": "SBP Transgran",
+          "type": "Transfer via phone CIS",
+          "provider": "Paystar",
+          "minD": 15,
+          "maxD": 3000,
+          "fd": "conditional"
+        },
+        {
+          "method": "Sberpay",
+          "type": "Transfer via QR",
+          "provider": "Paystar",
+          "minD": 5,
+          "maxD": 1700,
+          "fd": "conditional"
+        },
+        {
+          "method": "Mobile Top-Up",
+          "type": "Transfer via phone",
+          "provider": "Paystar",
+          "minD": 5,
+          "maxD": 70,
+          "fd": "yes"
+        },
+        {
+          "method": "Crypto",
+          "type": "Crypto",
+          "provider": "0xProcessing",
+          "minD": 5,
+          "maxD": 5000,
+          "minW": 20,
+          "maxW": 3000,
+          "fd": "yes"
+        },
+        {
+          "method": "Bybit Pay QR Desktop",
+          "type": "Crypto",
+          "provider": "BBPay",
+          "minD": 10,
+          "maxD": 10000,
+          "fd": "yes"
+        },
+        {
+          "method": "Luxon Pay",
+          "type": "Digital wallet",
+          "provider": "Luxon Pay",
+          "minD": 10,
+          "maxD": 5000,
+          "minW": 20,
+          "maxW": 3000,
+          "fd": "yes"
+        },
+        {
+          "method": "Piastrix",
+          "type": "Digital wallet",
+          "provider": "Piastrix",
+          "minD": 10,
+          "maxD": 5000,
+          "minW": 20,
+          "maxW": 3000,
+          "fd": "yes"
+        }
+      ],
+      "withdrawals": [
+        {
+          "method": "Card Transfer",
+          "type": "Withdrawal via card",
+          "provider": "Paystar",
+          "minW": 70,
+          "maxW": 1000
+        },
+        {
+          "method": "Card Transfer",
+          "type": "Withdrawal via card",
+          "provider": "Octopays",
+          "minW": 65,
+          "maxW": 1500
+        },
+        {
+          "method": "Card Transfer / SBP",
+          "type": "Withdrawal via card/phone",
+          "provider": "Payport",
+          "minW": 65,
+          "maxW": 2500
+        },
+        {
+          "method": "Card Transfer",
+          "type": "Withdrawal via card",
+          "provider": "Paycos",
+          "minW": 65,
+          "maxW": 1500
+        }
+      ]
+    },
+    "India": {
+      "currency": "INR",
+      "symbol": "₹",
+      "deposits": [
+        {
+          "method": "Crypto",
+          "type": "Crypto",
+          "provider": "0xProcessing",
+          "minD": 500,
+          "maxD": 500000,
+          "minW": 2000,
+          "maxW": 500000,
+          "fd": "yes"
+        },
+        {
+          "method": "Bybit Pay QR Desktop",
+          "type": "Crypto",
+          "provider": "BBPay",
+          "minD": 10,
+          "maxD": 10000,
+          "fd": "yes",
+          "note": "лимиты в USD"
+        },
+        {
+          "method": "Skrill",
+          "type": "Digital wallet",
+          "provider": "Skrill",
+          "minD": 500,
+          "maxD": 265000,
+          "minW": 1000,
+          "maxW": 265000,
+          "fd": "yes"
+        },
+        {
+          "method": "Luxon Pay",
+          "type": "Digital wallet",
+          "provider": "Luxon Pay",
+          "minD": 500,
+          "maxD": 420000,
+          "minW": 1000,
+          "maxW": 200000,
+          "fd": "yes"
+        },
+        {
+          "method": "UPI",
+          "type": "UPI",
+          "provider": "Paystar",
+          "minD": 500,
+          "maxD": 50000,
+          "fd": "yes"
+        },
+        {
+          "method": "Paytm",
+          "type": "Paytm",
+          "provider": "Paystar",
+          "minD": 500,
+          "maxD": 50000,
+          "fd": "yes"
+        },
+        {
+          "method": "PhonePe",
+          "type": "PhonePe",
+          "provider": "Paystar",
+          "minD": 500,
+          "maxD": 50000,
+          "fd": "yes"
+        },
+        {
+          "method": "Google Pay",
+          "type": "Google Pay",
+          "provider": "Paystar",
+          "minD": 500,
+          "maxD": 50000,
+          "fd": "yes"
+        },
+        {
+          "method": "UPI (A-Pay)",
+          "type": "P2P",
+          "provider": "A-Pay",
+          "minD": 1000,
+          "maxD": 50000,
+          "fd": "yes"
+        },
+        {
+          "method": "Paytm (A-Pay)",
+          "type": "P2P",
+          "provider": "A-Pay",
+          "minD": 1000,
+          "maxD": 50000,
+          "fd": "yes"
+        },
+        {
+          "method": "PhonePe (A-Pay)",
+          "type": "P2P",
+          "provider": "A-Pay",
+          "minD": 1000,
+          "maxD": 50000,
+          "fd": "yes"
+        },
+        {
+          "method": "IMPS",
+          "type": "Bank Transfer",
+          "provider": "A-Pay",
+          "minW": 1000,
+          "maxW": 100000,
+          "fd": "withdrawal"
+        },
+        {
+          "method": "UPI (FXMB)",
+          "type": "P2P",
+          "provider": "FXMB",
+          "minD": 500,
+          "maxD": 50000,
+          "minW": 1000,
+          "maxW": 50000,
+          "fd": "yes"
+        },
+        {
+          "method": "UPI (Payok)",
+          "type": "P2P",
+          "provider": "Payok",
+          "minD": 500,
+          "maxD": 50000,
+          "minW": 1000,
+          "maxW": 50000,
+          "fd": "yes"
+        }
+      ],
+      "withdrawals": []
+    },
+    "Kazakhstan": {
+      "currency": "USD",
+      "symbol": "$",
+      "deposits": [
+        {
+          "method": "Crypto",
+          "type": "Crypto",
+          "provider": "0xProcessing",
+          "minD": 10,
+          "maxD": 5000,
+          "minW": 20,
+          "maxW": 3000,
+          "fd": "yes"
+        },
+        {
+          "method": "Bybit Pay QR Desktop",
+          "type": "Crypto",
+          "provider": "BBPay",
+          "minD": 10,
+          "maxD": 10000,
+          "fd": "yes"
+        },
+        {
+          "method": "Card Deposit",
+          "type": "P2P/Direct card",
+          "provider": "Payport",
+          "minD": 5,
+          "maxD": 2200,
+          "fd": "yes"
+        },
+        {
+          "method": "VISA Mastercard Withdrawal",
+          "type": "Direct card",
+          "provider": "Interkassa",
+          "minD": 10,
+          "maxD": 950,
+          "minW": 50,
+          "maxW": 950,
+          "fd": "twoDeposits"
+        },
+        {
+          "method": "Luxon Pay",
+          "type": "Digital wallet",
+          "provider": "Luxon Pay",
+          "minD": 10,
+          "maxD": 5000,
+          "minW": 20,
+          "maxW": 3000,
+          "fd": "yes"
+        },
+        {
+          "method": "Piastrix",
+          "type": "Digital wallet",
+          "provider": "Piastrix",
+          "minD": 10,
+          "maxD": 5000,
+          "minW": 20,
+          "maxW": 3000,
+          "fd": "yes"
+        }
+      ],
+      "withdrawals": []
+    },
+    "Uzbekistan": {
+      "currency": "USD",
+      "symbol": "$",
+      "deposits": [
+        {
+          "method": "Crypto",
+          "type": "Crypto",
+          "provider": "Coinpayments",
+          "minD": 25,
+          "maxD": 5000,
+          "minW": 50,
+          "maxW": 3000,
+          "fd": "yes"
+        },
+        {
+          "method": "Bybit Pay QR Desktop",
+          "type": "Crypto",
+          "provider": "BBPay",
+          "minD": 10,
+          "maxD": 10000,
+          "fd": "yes"
+        },
+        {
+          "method": "UZCARD",
+          "type": "Transfer via card",
+          "provider": "Paystar",
+          "minD": 5,
+          "maxD": 5500,
+          "fd": "yes"
+        },
+        {
+          "method": "HUMO",
+          "type": "Transfer via card",
+          "provider": "Paystar",
+          "minD": 5,
+          "maxD": 2500,
+          "fd": "yes"
+        },
+        {
+          "method": "Card Transfer",
+          "type": "Transfer via card",
+          "provider": "Octopays",
+          "minD": 5,
+          "maxD": 2000,
+          "minW": 65,
+          "maxW": 1500,
+          "fd": "yes"
+        },
+        {
+          "method": "Luxon Pay",
+          "type": "Digital wallet",
+          "provider": "Luxon Pay",
+          "minD": 10,
+          "maxD": 5000,
+          "minW": 20,
+          "maxW": 3000,
+          "fd": "yes"
+        },
+        {
+          "method": "Skrill",
+          "type": "Digital wallet",
+          "provider": "Skrill",
+          "minD": 10,
+          "maxD": 5000,
+          "minW": 20,
+          "maxW": 3000,
+          "fd": "yes"
+        },
+        {
+          "method": "Piastrix",
+          "type": "Digital wallet",
+          "provider": "Piastrix",
+          "minD": 10,
+          "maxD": 5000,
+          "minW": 20,
+          "maxW": 3000,
+          "fd": "yes"
+        }
+      ],
+      "withdrawals": []
+    },
+    "Chile": {
+      "currency": "USD",
+      "symbol": "$",
+      "deposits": [
+        {
+          "method": "Crypto",
+          "type": "Crypto",
+          "provider": "Coinpayments",
+          "minD": 25,
+          "maxD": 5000,
+          "minW": 50,
+          "maxW": 3000,
+          "fd": "yes"
+        },
+        {
+          "method": "Fast Deposit (Card)",
+          "type": "Direct card",
+          "provider": "Pagsmile",
+          "minD": 5,
+          "maxD": 1100,
+          "fd": "yes"
+        },
+        {
+          "method": "Fast Deposit (Mach)",
+          "type": "Digital wallet",
+          "provider": "Pagsmile",
+          "minD": 5,
+          "maxD": 1100,
+          "fd": "yes"
+        },
+        {
+          "method": "Fast Deposit (Webpay)",
+          "type": "Digital wallet",
+          "provider": "Pagsmile",
+          "minD": 5,
+          "maxD": 1100,
+          "fd": "yes"
+        },
+        {
+          "method": "Fast Deposit (Khipu)",
+          "type": "Digital wallet",
+          "provider": "Pagsmile",
+          "minD": 5,
+          "maxD": 290,
+          "fd": "yes"
+        },
+        {
+          "method": "Bank Transfer",
+          "type": "Bank Transfer",
+          "provider": "Pagsmile",
+          "minW": 10,
+          "maxW": 1500,
+          "fd": "withdrawal"
+        },
+        {
+          "method": "Bybit Pay QR Desktop",
+          "type": "Crypto",
+          "provider": "BBPay",
+          "minD": 10,
+          "maxD": 10000,
+          "fd": "yes"
+        },
+        {
+          "method": "Luxon Pay",
+          "type": "Digital wallet",
+          "provider": "Luxon Pay",
+          "minD": 10,
+          "maxD": 5000,
+          "minW": 20,
+          "maxW": 3000,
+          "fd": "yes"
+        },
+        {
+          "method": "Skrill",
+          "type": "Digital wallet",
+          "provider": "Skrill",
+          "minD": 10,
+          "maxD": 5000,
+          "minW": 20,
+          "maxW": 3000,
+          "fd": "yes"
+        }
+      ],
+      "withdrawals": []
+    }
+  }
+}

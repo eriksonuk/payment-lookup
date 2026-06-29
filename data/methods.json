@@ -2,9 +2,10 @@
   "_meta": {
     "source": "Cashier Operations: PSP Deposits, Withdrawals & Limits (page 75333720)",
     "sourcePageId": "75333720",
-    "lastSynced": "2026-06-25",
-    "sourceVersion": 82,
-    "syncedBy": "manual-seed"
+    "lastSynced": "2026-06-29",
+    "sourceVersion": 85,
+    "syncedBy": "github-action",
+    "syncedAt": "2026-06-29T14:03:41.139Z"
   },
   "generalWithdrawalLimits": "До $3,000/день · $10,000/неделя · $25,000/месяц",
   "firstDepositLabels": {
@@ -49,8 +50,6 @@
         "provider": "BBPay",
         "minD": 10,
         "maxD": 10000,
-        "minW": null,
-        "maxW": null,
         "fd": "yes"
       },
       {
@@ -156,8 +155,54 @@
       "symbol": "$",
       "deposits": [
         {
+          "method": "Crypto",
+          "type": "Crypto",
+          "provider": "0xProcessing",
+          "minD": 5,
+          "maxD": 5000,
+          "minW": 20,
+          "maxW": 3000,
+          "fd": "yes"
+        },
+        {
+          "method": "Bybit Pay QR Desktop",
+          "type": "Crypto",
+          "provider": "BBPay",
+          "minD": 10,
+          "maxD": 10000,
+          "fd": "yes"
+        },
+        {
+          "method": "Luxon Pay",
+          "type": "Digital wallet",
+          "provider": "Luxon Pay",
+          "minD": 10,
+          "maxD": 5000,
+          "minW": 20,
+          "maxW": 3000,
+          "fd": "yes"
+        },
+        {
+          "method": "Piastrix",
+          "type": "Digital wallet",
+          "provider": "Piastrix",
+          "minD": 10,
+          "maxD": 5000,
+          "minW": 20,
+          "maxW": 3000,
+          "fd": "yes"
+        },
+        {
+          "method": "Mobile Top-Up",
+          "type": "Transfer via phone number",
+          "provider": "Paystar",
+          "minD": 5,
+          "maxD": 70,
+          "fd": "yes"
+        },
+        {
           "method": "Sberpay SBP",
-          "type": "Transfer via phone CIS",
+          "type": "Transfer via phone number CIS",
           "provider": "Paystar",
           "minD": 15,
           "maxD": 1300,
@@ -197,7 +242,7 @@
         },
         {
           "method": "Alfa Pay SBP",
-          "type": "Transfer via phone",
+          "type": "Transfer via phone number",
           "provider": "Paystar",
           "minD": 15,
           "maxD": 640,
@@ -205,7 +250,7 @@
         },
         {
           "method": "Alfa Pay",
-          "type": "Transfer via phone",
+          "type": "Transfer via phone number",
           "provider": "Paystar",
           "minD": 15,
           "maxD": 640,
@@ -213,7 +258,7 @@
         },
         {
           "method": "GazpromPay SBP",
-          "type": "Transfer via phone CIS",
+          "type": "Transfer via phone number CIS",
           "provider": "Paystar",
           "minD": 5,
           "maxD": 1300,
@@ -221,7 +266,7 @@
         },
         {
           "method": "GazpromPay",
-          "type": "Transfer via phone CIS",
+          "type": "Transfer via phone number CIS",
           "provider": "Paystar",
           "minD": 5,
           "maxD": 640,
@@ -229,7 +274,7 @@
         },
         {
           "method": "PSB Pay",
-          "type": "Transfer via phone CIS",
+          "type": "Transfer via phone number CIS",
           "provider": "Paystar",
           "minD": 15,
           "maxD": 640,
@@ -237,7 +282,7 @@
         },
         {
           "method": "Sovcombank",
-          "type": "Transfer via phone CIS",
+          "type": "Transfer via phone number CIS",
           "provider": "Paystar",
           "minD": 15,
           "maxD": 500,
@@ -245,7 +290,7 @@
         },
         {
           "method": "SBP",
-          "type": "Transfer via phone",
+          "type": "Transfer via phone number",
           "provider": "Paystar",
           "minD": 45,
           "maxD": 1850,
@@ -253,7 +298,7 @@
         },
         {
           "method": "Card Transfer",
-          "type": "Transfer via card",
+          "type": "Transfer via card number",
           "provider": "Paystar",
           "minD": 45,
           "maxD": 3500,
@@ -261,7 +306,7 @@
         },
         {
           "method": "SBP Transgran",
-          "type": "Transfer via phone CIS",
+          "type": "Transfer via phone number CIS",
           "provider": "Paystar",
           "minD": 15,
           "maxD": 3000,
@@ -274,79 +319,33 @@
           "minD": 5,
           "maxD": 1700,
           "fd": "conditional"
-        },
-        {
-          "method": "Mobile Top-Up",
-          "type": "Transfer via phone",
-          "provider": "Paystar",
-          "minD": 5,
-          "maxD": 70,
-          "fd": "yes"
-        },
-        {
-          "method": "Crypto",
-          "type": "Crypto",
-          "provider": "0xProcessing",
-          "minD": 5,
-          "maxD": 5000,
-          "minW": 20,
-          "maxW": 3000,
-          "fd": "yes"
-        },
-        {
-          "method": "Bybit Pay QR Desktop",
-          "type": "Crypto",
-          "provider": "BBPay",
-          "minD": 10,
-          "maxD": 10000,
-          "fd": "yes"
-        },
-        {
-          "method": "Luxon Pay",
-          "type": "Digital wallet",
-          "provider": "Luxon Pay",
-          "minD": 10,
-          "maxD": 5000,
-          "minW": 20,
-          "maxW": 3000,
-          "fd": "yes"
-        },
-        {
-          "method": "Piastrix",
-          "type": "Digital wallet",
-          "provider": "Piastrix",
-          "minD": 10,
-          "maxD": 5000,
-          "minW": 20,
-          "maxW": 3000,
-          "fd": "yes"
         }
       ],
       "withdrawals": [
         {
           "method": "Card Transfer",
-          "type": "Withdrawal via card",
+          "type": "Withdrawal via card number",
           "provider": "Paystar",
           "minW": 70,
           "maxW": 1000
         },
         {
           "method": "Card Transfer",
-          "type": "Withdrawal via card",
+          "type": "Withdrawal via card number",
           "provider": "Octopays",
           "minW": 65,
           "maxW": 1500
         },
         {
           "method": "Card Transfer / SBP",
-          "type": "Withdrawal via card/phone",
+          "type": "Withdrawal via card number/phone number",
           "provider": "Payport",
           "minW": 65,
           "maxW": 2500
         },
         {
           "method": "Card Transfer",
-          "type": "Withdrawal via card",
+          "type": "Withdrawal via card number",
           "provider": "Paycos",
           "minW": 65,
           "maxW": 1500
@@ -373,8 +372,7 @@
           "provider": "BBPay",
           "minD": 10,
           "maxD": 10000,
-          "fd": "yes",
-          "note": "лимиты в USD"
+          "fd": "yes"
         },
         {
           "method": "Skrill",
@@ -429,7 +427,7 @@
           "fd": "yes"
         },
         {
-          "method": "UPI (A-Pay)",
+          "method": "UPI",
           "type": "P2P",
           "provider": "A-Pay",
           "minD": 1000,
@@ -437,7 +435,7 @@
           "fd": "yes"
         },
         {
-          "method": "Paytm (A-Pay)",
+          "method": "Paytm",
           "type": "P2P",
           "provider": "A-Pay",
           "minD": 1000,
@@ -445,7 +443,7 @@
           "fd": "yes"
         },
         {
-          "method": "PhonePe (A-Pay)",
+          "method": "PhonePe",
           "type": "P2P",
           "provider": "A-Pay",
           "minD": 1000,
@@ -456,12 +454,14 @@
           "method": "IMPS",
           "type": "Bank Transfer",
           "provider": "A-Pay",
+          "minD": null,
+          "maxD": null,
           "minW": 1000,
           "maxW": 100000,
-          "fd": "withdrawal"
+          "fd": "yes"
         },
         {
-          "method": "UPI (FXMB)",
+          "method": "UPI",
           "type": "P2P",
           "provider": "FXMB",
           "minD": 500,
@@ -471,7 +471,7 @@
           "fd": "yes"
         },
         {
-          "method": "UPI (Payok)",
+          "method": "UPI",
           "type": "P2P",
           "provider": "Payok",
           "minD": 500,
@@ -507,7 +507,7 @@
         },
         {
           "method": "Card Deposit",
-          "type": "P2P/Direct card",
+          "type": "P2P/Direct card payments",
           "provider": "Payport",
           "minD": 5,
           "maxD": 2200,
@@ -515,7 +515,7 @@
         },
         {
           "method": "VISA Mastercard Withdrawal",
-          "type": "Direct card",
+          "type": "Direct card payments",
           "provider": "Interkassa",
           "minD": 10,
           "maxD": 950,
@@ -570,7 +570,7 @@
         },
         {
           "method": "UZCARD",
-          "type": "Transfer via card",
+          "type": "Transfer via card number",
           "provider": "Paystar",
           "minD": 5,
           "maxD": 5500,
@@ -578,7 +578,7 @@
         },
         {
           "method": "HUMO",
-          "type": "Transfer via card",
+          "type": "Transfer via card number",
           "provider": "Paystar",
           "minD": 5,
           "maxD": 2500,
@@ -586,7 +586,7 @@
         },
         {
           "method": "Card Transfer",
-          "type": "Transfer via card",
+          "type": "Transfer via card number",
           "provider": "Octopays",
           "minD": 5,
           "maxD": 2000,
@@ -642,32 +642,32 @@
           "fd": "yes"
         },
         {
-          "method": "Fast Deposit (Card)",
-          "type": "Direct card",
+          "method": "Fast Deposit",
+          "type": "Direct card payments",
           "provider": "Pagsmile",
           "minD": 5,
           "maxD": 1100,
           "fd": "yes"
         },
         {
-          "method": "Fast Deposit (Mach)",
-          "type": "Digital wallet",
+          "method": "Fast Deposit",
+          "type": "Digital wallet Mach",
           "provider": "Pagsmile",
           "minD": 5,
           "maxD": 1100,
           "fd": "yes"
         },
         {
-          "method": "Fast Deposit (Webpay)",
-          "type": "Digital wallet",
+          "method": "Fast Deposit",
+          "type": "Digital wallet Webpay",
           "provider": "Pagsmile",
           "minD": 5,
           "maxD": 1100,
           "fd": "yes"
         },
         {
-          "method": "Fast Deposit (Khipu)",
-          "type": "Digital wallet",
+          "method": "Fast Deposit",
+          "type": "Digital wallet Khipu",
           "provider": "Pagsmile",
           "minD": 5,
           "maxD": 290,
@@ -677,9 +677,11 @@
           "method": "Bank Transfer",
           "type": "Bank Transfer",
           "provider": "Pagsmile",
+          "minD": null,
+          "maxD": null,
           "minW": 10,
           "maxW": 1500,
-          "fd": "withdrawal"
+          "fd": "yes"
         },
         {
           "method": "Bybit Pay QR Desktop",

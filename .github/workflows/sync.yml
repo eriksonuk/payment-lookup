@@ -1,5 +1,4 @@
-файл → карандаш (Edit) → выдели всё (Ctrl+A) → удали → вставь ровно это:
-yamlname: Sync payment data from Confluence
+name: Sync payment data from Confluence
 
 on:
   schedule:

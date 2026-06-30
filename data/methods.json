@@ -2,10 +2,10 @@
   "_meta": {
     "source": "Cashier Operations: PSP Deposits, Withdrawals & Limits (page 75333720)",
     "sourcePageId": "75333720",
-    "lastSynced": "2026-06-29",
-    "sourceVersion": 85,
+    "lastSynced": "2026-06-30",
+    "sourceVersion": 86,
     "syncedBy": "github-action",
-    "syncedAt": "2026-06-29T14:03:41.139Z"
+    "syncedAt": "2026-06-30T12:32:49.038Z"
   },
   "generalWithdrawalLimits": "До $3,000/день · $10,000/неделя · $25,000/месяц",
   "firstDepositLabels": {

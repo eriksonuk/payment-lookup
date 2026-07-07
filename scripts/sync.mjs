@@ -1,12 +1,4 @@
 // sync.mjs — тянет данные с Confluence и пишет data/methods.json
-//
-// Переменные окружения:
-//   CONF_BASE   — напр. https://pokerplanets.atlassian.net/wiki
-//   CONF_EMAIL  — email в Atlassian
-//   CONF_TOKEN  — API-токен
-//   PAGE_ID     — 75333720 (по умолчанию)
-//
-// Запуск локально:  CONF_BASE=... CONF_EMAIL=... CONF_TOKEN=... node scripts/sync.mjs
 
 import { writeFile, readFile } from "node:fs/promises";
 
@@ -15,6 +7,24 @@ const EMAIL  = process.env.CONF_EMAIL;
 const TOKEN  = process.env.CONF_TOKEN;
 const PAGE_ID= process.env.PAGE_ID    || "75333720";
 const OUT     = "data/methods.json";
+
+// --- диагностика окружения (без раскрытия секретов) ---
+function skeleton(s) {
+  if (!s) return "(пусто!)";
+  // показываем схему и домен, всё остальное скрываем
+  try {
+    const u = new URL(s);
+    return `${u.protocol}//${u.hostname}${u.pathname}`;
+  } catch {
+    return `(не-URL, длина ${s.length})`;
+  }
+}
+console.log("=== ДИАГНОСТИКА ===");
+console.log("CONF_BASE задан:", !!process.env.CONF_BASE, "| скелет:", skeleton(process.env.CONF_BASE));
+console.log("CONF_EMAIL задан:", !!EMAIL, "| длина:", (EMAIL || "").length, "| содержит @:", (EMAIL || "").includes("@"));
+console.log("CONF_TOKEN задан:", !!TOKEN, "| длина:", (TOKEN || "").length);
+console.log("PAGE_ID:", PAGE_ID);
+console.log("===================");
 
 const STATIC = {
   generalWithdrawalLimits: { perDay: 3000, perWeek: 10000, perMonth: 25000 },
@@ -25,8 +35,6 @@ const STATIC = {
     twoDeposits: "После двух депозитов",
     withdrawal: "Только вывод",
   },
-  // general.methods и generalCountries теперь берутся из экспанда
-  // "GENERAL / INTERNATIONAL" на самой странице — вручную не правятся.
 };
 
 const money = s => {
@@ -78,7 +86,6 @@ function rowToMethod(cells) {
   return obj;
 }
 
-// извлечь все параграфы (как строки текста) внутри узла
 function findParagraphs(node, out = []) {
   if (!node) return out;
   if (Array.isArray(node)) { node.forEach(n => findParagraphs(n, out)); return out; }
@@ -89,20 +96,15 @@ function findParagraphs(node, out = []) {
   return out;
 }
 
-// из текста "Countries ...: A, B, C" или просто "A, B, C" собрать массив стран
 function parseCountryList(paragraphs) {
   let best = "";
   for (const p of paragraphs) {
     const body = p.includes(":") ? p.slice(p.indexOf(":") + 1) : p;
     if (body.split(",").length > best.split(",").length) best = body;
   }
-  return best
-    .split(",")
-    .map(s => s.trim())
-    .filter(s => s && !/^https?:/i.test(s) && s.length < 40);
+  return best.split(",").map(s => s.trim()).filter(s => s && !/^https?:/i.test(s) && s.length < 40);
 }
 
-// извлечь таблицы внутри узла
 function findTables(node, out = []) {
   if (!node) return out;
   if (Array.isArray(node)) { node.forEach(n => findTables(n, out)); return out; }
@@ -116,22 +118,48 @@ function findTables(node, out = []) {
   return out;
 }
 
-// ---------- main ----------
+// ---------- получение страницы: пробуем v2, при 404 — v1 ----------
 const auth = "Basic " + Buffer.from(`${EMAIL}:${TOKEN}`).toString("base64");
-const url  = `${BASE}/api/v2/pages/${PAGE_ID}?body-format=atlas_doc_format`;
+const headers = { Authorization: auth, Accept: "application/json" };
 
-const res = await fetch(url, { headers: { Authorization: auth, Accept: "application/json" } });
-if (!res.ok) {
-  console.error(`Confluence API ${res.status} для URL: ${url}`);
-  console.error(await res.text());
-  process.exit(1);
+async function tryFetch(url) {
+  const res = await fetch(url, { headers });
+  return res;
 }
-const page = await res.json();
-const version = page.version?.number ?? null;
-const updatedAt = (page.version?.createdAt || "").slice(0, 10);
-const doc = JSON.parse(page.body.atlas_doc_format.value);
 
-// собрать страны из expand-блоков
+let doc, version, updatedAt;
+
+// попытка 1: REST API v2
+const urlV2 = `${BASE}/api/v2/pages/${PAGE_ID}?body-format=atlas_doc_format`;
+let res = await tryFetch(urlV2);
+
+if (res.status === 404) {
+  console.warn("v2 вернул 404, пробую v1 endpoint...");
+  // попытка 2: REST API v1
+  const urlV1 = `${BASE}/rest/api/content/${PAGE_ID}?expand=body.atlas_doc_format,version`;
+  res = await tryFetch(urlV1);
+  if (res.ok) {
+    const page = await res.json();
+    version = page.version?.number ?? null;
+    updatedAt = (page.version?.when || page.version?.createdAt || "").slice(0, 10);
+    doc = JSON.parse(page.body.atlas_doc_format.value);
+  }
+}
+
+if (!doc) {
+  if (!res.ok) {
+    console.error(`Не удалось получить страницу. Последний статус: ${res.status}`);
+    console.error(await res.text());
+    process.exit(1);
+  }
+  // v2 успех
+  const page = await res.json();
+  version = page.version?.number ?? null;
+  updatedAt = (page.version?.createdAt || "").slice(0, 10);
+  doc = JSON.parse(page.body.atlas_doc_format.value);
+}
+
+// ---------- разбор ----------
 const local = {};
 let general = { currency: "USD", symbol: "$", methods: [] };
 let generalCountries = [];
@@ -176,14 +204,12 @@ if (!generalFound) {
     const prev = JSON.parse(await readFile(OUT, "utf-8"));
     general = prev.general || general;
     generalCountries = prev.generalCountries || [];
-    console.warn("GENERAL / INTERNATIONAL экспанд не найден на странице — general взят из существующего methods.json.");
-  } catch { /* первый запуск без файла — оставим пустыми */ }
+    console.warn("GENERAL / INTERNATIONAL экспанд не найден — general взят из существующего methods.json.");
+  } catch {}
 }
 
 const out = {
-  local,
-  general,
-  generalCountries,
+  local, general, generalCountries,
   generalWithdrawalLimits: STATIC.generalWithdrawalLimits,
   firstDepositLabels: STATIC.firstDepositLabels,
   _meta: {
@@ -195,4 +221,4 @@ const out = {
 };
 
 await writeFile(OUT, JSON.stringify(out, null, 2) + "\n", "utf-8");
-console.log(`OK: страниц v${version}, стран ${Object.keys(local).length}, general-методов ${general.methods.length}, стран general ${generalCountries.length}`);
+console.log(`OK: страница v${version}, стран ${Object.keys(local).length}, general-методов ${general.methods.length}, стран general ${generalCountries.length}`);

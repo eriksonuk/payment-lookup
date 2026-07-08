@@ -33,16 +33,6 @@
           "fd": "yes"
         },
         {
-          "method": "Piastrix",
-          "type": "Digital wallet",
-          "provider": "Piastrix",
-          "minD": 10,
-          "maxD": 5000,
-          "minW": 20,
-          "maxW": 3000,
-          "fd": "yes"
-        },
-        {
           "method": "Mobile Top-Up",
           "type": "Transfer via phone number",
           "provider": "Paystar",
@@ -382,16 +372,6 @@
           "minW": 20,
           "maxW": 3000,
           "fd": "yes"
-        },
-        {
-          "method": "Piastrix",
-          "type": "Digital wallet",
-          "provider": "Piastrix",
-          "minD": 10,
-          "maxD": 5000,
-          "minW": 20,
-          "maxW": 3000,
-          "fd": "yes"
         }
       ],
       "withdrawals": []
@@ -458,16 +438,6 @@
           "method": "Skrill",
           "type": "Digital wallet",
           "provider": "Skrill",
-          "minD": 10,
-          "maxD": 5000,
-          "minW": 20,
-          "maxW": 3000,
-          "fd": "yes"
-        },
-        {
-          "method": "Piastrix",
-          "type": "Digital wallet",
-          "provider": "Piastrix",
           "minD": 10,
           "maxD": 5000,
           "minW": 20,
@@ -598,16 +568,6 @@
         "fd": "yes"
       },
       {
-        "method": "Piastrix",
-        "type": "Digital wallet",
-        "provider": "Piastrix",
-        "minD": 10,
-        "maxD": 5000,
-        "minW": 20,
-        "maxW": 3000,
-        "fd": "yes"
-      },
-      {
         "method": "Skrill",
         "type": "Digital wallet",
         "provider": "Skrill",
@@ -699,7 +659,7 @@
   "_meta": {
     "source": "Cashier Operations: PSP Deposits, Withdrawals & Limits (page 75333720)",
     "sourcePageId": "75333720",
-    "sourceVersion": 89,
-    "lastSynced": "2026-07-01"
+    "sourceVersion": 90,
+    "lastSynced": "2026-07-08"
   }
 }

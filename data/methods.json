@@ -132,7 +132,7 @@
           "method": "SBP",
           "type": "Transfer via phone number",
           "provider": "Paystar",
-          "minD": 45,
+          "minD": 65,
           "maxD": 1850,
           "fd": "yes"
         },
@@ -140,17 +140,9 @@
           "method": "Card Transfer",
           "type": "Transfer via card number",
           "provider": "Paystar",
-          "minD": 45,
+          "minD": 65,
           "maxD": 3500,
           "fd": "yes"
-        },
-        {
-          "method": "SBP Transgran",
-          "type": "Transfer via phone number CIS",
-          "provider": "Paystar",
-          "minD": 15,
-          "maxD": 3000,
-          "fd": "conditional"
         },
         {
           "method": "Sberpay",
@@ -659,7 +651,7 @@
   "_meta": {
     "source": "Cashier Operations: PSP Deposits, Withdrawals & Limits (page 75333720)",
     "sourcePageId": "75333720",
-    "sourceVersion": 90,
-    "lastSynced": "2026-07-08"
+    "sourceVersion": 91,
+    "lastSynced": "2026-07-15"
   }
 }

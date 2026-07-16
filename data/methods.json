@@ -375,8 +375,8 @@
         {
           "method": "Crypto",
           "type": "Crypto",
-          "provider": "Coinpayments",
-          "minD": 25,
+          "provider": "0xProcessing",
+          "minD": 5,
           "maxD": 5000,
           "minW": 50,
           "maxW": 3000,
@@ -446,8 +446,8 @@
         {
           "method": "Crypto",
           "type": "Crypto",
-          "provider": "Coinpayments",
-          "minD": 25,
+          "provider": "0xProcessing",
+          "minD": 5,
           "maxD": 5000,
           "minW": 50,
           "maxW": 3000,
@@ -651,7 +651,7 @@
   "_meta": {
     "source": "Cashier Operations: PSP Deposits, Withdrawals & Limits (page 75333720)",
     "sourcePageId": "75333720",
-    "sourceVersion": 91,
+    "sourceVersion": 92,
     "lastSynced": "2026-07-15"
   }
 }

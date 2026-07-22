@@ -41,6 +41,14 @@
           "fd": "yes"
         },
         {
+          "method": "Sberpay",
+          "type": "Transfer via QR",
+          "provider": "Paystar",
+          "minD": 15,
+          "maxD": 1700,
+          "fd": "conditional"
+        },
+        {
           "method": "Sberpay SBP",
           "type": "Transfer via phone number CIS",
           "provider": "Paystar",
@@ -97,22 +105,6 @@
           "fd": "no"
         },
         {
-          "method": "GazpromPay SBP",
-          "type": "Transfer via phone number CIS",
-          "provider": "Paystar",
-          "minD": 5,
-          "maxD": 1300,
-          "fd": "yes"
-        },
-        {
-          "method": "GazpromPay",
-          "type": "Transfer via phone number CIS",
-          "provider": "Paystar",
-          "minD": 5,
-          "maxD": 640,
-          "fd": "no"
-        },
-        {
           "method": "PSB Pay",
           "type": "Transfer via phone number CIS",
           "provider": "Paystar",
@@ -143,14 +135,6 @@
           "minD": 65,
           "maxD": 3500,
           "fd": "yes"
-        },
-        {
-          "method": "Sberpay",
-          "type": "Transfer via QR",
-          "provider": "Paystar",
-          "minD": 5,
-          "maxD": 1700,
-          "fd": "conditional"
         }
       ],
       "withdrawals": [
@@ -651,7 +635,7 @@
   "_meta": {
     "source": "Cashier Operations: PSP Deposits, Withdrawals & Limits (page 75333720)",
     "sourcePageId": "75333720",
-    "sourceVersion": 92,
-    "lastSynced": "2026-07-15"
+    "sourceVersion": 93,
+    "lastSynced": "2026-07-22"
   }
 }

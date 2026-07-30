@@ -33,6 +33,16 @@
           "fd": "yes"
         },
         {
+          "method": "Izimo",
+          "type": "Digital wallet",
+          "provider": "Paystar",
+          "minD": 10,
+          "maxD": 1000,
+          "minW": 20,
+          "maxW": 900,
+          "fd": "yes"
+        },
+        {
           "method": "Mobile Top-Up",
           "type": "Transfer via phone number",
           "provider": "Paystar",
@@ -643,7 +653,7 @@
   "_meta": {
     "source": "Cashier Operations: PSP Deposits, Withdrawals & Limits (page 75333720)",
     "sourcePageId": "75333720",
-    "sourceVersion": 94,
-    "lastSynced": "2026-07-23"
+    "sourceVersion": 95,
+    "lastSynced": "2026-07-30"
   }
 }

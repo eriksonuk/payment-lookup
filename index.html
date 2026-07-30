@@ -72,6 +72,7 @@
 let DATA=null;
 let txn="deposit";
 const fmt=(s,v)=>v==null?"—":s+Number(v).toLocaleString();
+const gwl=g=>!g?"—":typeof g==="string"?g:"$"+Number(g.perDay).toLocaleString()+"/день · $"+Number(g.perWeek).toLocaleString()+"/неделя · $"+Number(g.perMonth).toLocaleString()+"/месяц";
 
 async function boot(){
   try{
@@ -97,7 +98,7 @@ function init(){
   document.getElementById("out").innerHTML='<div class="hint">Выбери страну, чтобы начать.</div>';
 }
 
-function fdPill(fd){const L=DATA.firstDepositLabels[fd];if(!L)return null;return [L.label,"var(--"+L.color+")","var(--"+L.color+"bg)"];}
+function fdPill(fd){const L=DATA.firstDepositLabels[fd];if(!L)return null;const c=({yes:"ok",no:"warn",conditional:"blue",twoDeposits:"warn",withdrawal:"bad"})[fd]||"blue";return [typeof L==="string"?L:L.label,"var(--"+c+")","var(--"+c+"bg)"];}
 
 function render(){
   const sel=document.getElementById("country");
@@ -140,7 +141,7 @@ function render(){
   });
   const ok=rows.filter(r=>r.eligible),bad=rows.filter(r=>!r.eligible),isW=txn==="withdrawal";
   let html='<div class="banner">';
-  html+=isLocal?'<strong>'+country+'</strong> — локальные методы (валюта: '+market.currency+').':'<strong>'+country+'</strong> — общие / международные методы (USD). Лимиты вывода: '+DATA.generalWithdrawalLimits+'.';
+  html+=isLocal?'<strong>'+country+'</strong> — локальные методы (валюта: '+market.currency+').':'<strong>'+country+'</strong> — общие / международные методы (USD). Лимиты вывода: '+gwl(DATA.generalWithdrawalLimits)+'.';
   if(amt!=null)html+=' Показаны методы для <strong>'+fmt(sym,amt)+'</strong> ('+(isW?"вывод":"депозит")+').';
   html+='</div>';
   if(isW)html+='<div class="warnbox">⚠️ <strong>Вывод доступен только после первого успешного депозита</strong> (любая сумма). Перенесённый баланс (PS Sochi) блок не снимает. Метод депозита определяет доступные методы вывода: крипта → только крипта · Paystar → всё, кроме кошельков · Luxon/Skrill → только они.</div>';

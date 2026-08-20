@@ -142,7 +142,7 @@
           "method": "SBP",
           "type": "Transfer via phone number",
           "provider": "Paystar",
-          "minD": 65,
+          "minD": 60,
           "maxD": 1850,
           "fd": "yes"
         },
@@ -150,7 +150,7 @@
           "method": "Card Transfer",
           "type": "Transfer via card number",
           "provider": "Paystar",
-          "minD": 65,
+          "minD": 60,
           "maxD": 3500,
           "fd": "yes"
         }
@@ -653,7 +653,7 @@
   "_meta": {
     "source": "Cashier Operations: PSP Deposits, Withdrawals & Limits (page 75333720)",
     "sourcePageId": "75333720",
-    "sourceVersion": 95,
-    "lastSynced": "2026-07-30"
+    "sourceVersion": 96,
+    "lastSynced": "2026-08-19"
   }
 }

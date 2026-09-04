@@ -160,7 +160,7 @@
           "method": "Card Transfer",
           "type": "Withdrawal via card number",
           "provider": "Paystar",
-          "minW": 70,
+          "minW": 65,
           "maxW": 1000
         },
         {
@@ -653,7 +653,7 @@
   "_meta": {
     "source": "Cashier Operations: PSP Deposits, Withdrawals & Limits (page 75333720)",
     "sourcePageId": "75333720",
-    "sourceVersion": 96,
-    "lastSynced": "2026-08-19"
+    "sourceVersion": 97,
+    "lastSynced": "2026-09-04"
   }
 }

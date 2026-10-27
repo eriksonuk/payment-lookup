@@ -186,6 +186,113 @@
         }
       ]
     },
+    "Uzbekistan": {
+      "currency": "USD",
+      "symbol": "$",
+      "deposits": [
+        {
+          "method": "Crypto",
+          "type": "Crypto",
+          "provider": "0xProcessing",
+          "minD": 5,
+          "maxD": 5000,
+          "minW": 50,
+          "maxW": 3000,
+          "fd": "yes"
+        },
+        {
+          "method": "Bybit Pay QR Desktop",
+          "type": "Crypto",
+          "provider": "BBPay",
+          "minD": 10,
+          "maxD": 10000,
+          "fd": "yes"
+        },
+        {
+          "method": "UZCARD",
+          "type": "Transfer via card number",
+          "provider": "Paystar",
+          "minD": 5,
+          "maxD": 5500,
+          "minW": 20,
+          "maxW": 2500,
+          "fd": "yes"
+        },
+        {
+          "method": "HUMO",
+          "type": "Transfer via card number",
+          "provider": "Paystar",
+          "minD": 5,
+          "maxD": 2500,
+          "minW": 20,
+          "maxW": 1500,
+          "fd": "yes"
+        },
+        {
+          "method": "Click",
+          "type": "Transfer via card number",
+          "provider": "Paystar",
+          "minD": 5,
+          "maxD": 1200,
+          "fd": "yes"
+        },
+        {
+          "method": "Payme",
+          "type": "Transfer via card number",
+          "provider": "Paystar",
+          "minD": 5,
+          "maxD": 1200,
+          "fd": "yes"
+        },
+        {
+          "method": "Paynet",
+          "type": "Transfer via card number",
+          "provider": "Paystar",
+          "minD": 5,
+          "maxD": 2500,
+          "fd": "yes"
+        },
+        {
+          "method": "ECOM",
+          "type": "Transfer via card number",
+          "provider": "Paystar",
+          "minD": 5,
+          "maxD": 5500,
+          "fd": "yes"
+        },
+        {
+          "method": "Card Transfer",
+          "type": "Transfer via card number",
+          "provider": "Octopays",
+          "minD": 5,
+          "maxD": 2000,
+          "minW": 65,
+          "maxW": 1500,
+          "fd": "yes"
+        },
+        {
+          "method": "Luxon Pay",
+          "type": "Digital wallet",
+          "provider": "Luxon Pay",
+          "minD": 10,
+          "maxD": 5000,
+          "minW": 20,
+          "maxW": 3000,
+          "fd": "yes"
+        },
+        {
+          "method": "Skrill",
+          "type": "Digital wallet",
+          "provider": "Skrill",
+          "minD": 10,
+          "maxD": 5000,
+          "minW": 20,
+          "maxW": 3000,
+          "fd": "yes"
+        }
+      ],
+      "withdrawals": []
+    },
     "India": {
       "currency": "INR",
       "symbol": "₹",
@@ -361,77 +468,6 @@
           "method": "Luxon Pay",
           "type": "Digital wallet",
           "provider": "Luxon Pay",
-          "minD": 10,
-          "maxD": 5000,
-          "minW": 20,
-          "maxW": 3000,
-          "fd": "yes"
-        }
-      ],
-      "withdrawals": []
-    },
-    "Uzbekistan": {
-      "currency": "USD",
-      "symbol": "$",
-      "deposits": [
-        {
-          "method": "Crypto",
-          "type": "Crypto",
-          "provider": "0xProcessing",
-          "minD": 5,
-          "maxD": 5000,
-          "minW": 50,
-          "maxW": 3000,
-          "fd": "yes"
-        },
-        {
-          "method": "Bybit Pay QR Desktop",
-          "type": "Crypto",
-          "provider": "BBPay",
-          "minD": 10,
-          "maxD": 10000,
-          "fd": "yes"
-        },
-        {
-          "method": "UZCARD",
-          "type": "Transfer via card number",
-          "provider": "Paystar",
-          "minD": 5,
-          "maxD": 5500,
-          "fd": "yes"
-        },
-        {
-          "method": "HUMO",
-          "type": "Transfer via card number",
-          "provider": "Paystar",
-          "minD": 5,
-          "maxD": 2500,
-          "fd": "yes"
-        },
-        {
-          "method": "Card Transfer",
-          "type": "Transfer via card number",
-          "provider": "Octopays",
-          "minD": 5,
-          "maxD": 2000,
-          "minW": 65,
-          "maxW": 1500,
-          "fd": "yes"
-        },
-        {
-          "method": "Luxon Pay",
-          "type": "Digital wallet",
-          "provider": "Luxon Pay",
-          "minD": 10,
-          "maxD": 5000,
-          "minW": 20,
-          "maxW": 3000,
-          "fd": "yes"
-        },
-        {
-          "method": "Skrill",
-          "type": "Digital wallet",
-          "provider": "Skrill",
           "minD": 10,
           "maxD": 5000,
           "minW": 20,
@@ -653,7 +689,7 @@
   "_meta": {
     "source": "Cashier Operations: PSP Deposits, Withdrawals & Limits (page 75333720)",
     "sourcePageId": "75333720",
-    "sourceVersion": 99,
-    "lastSynced": "2026-09-21"
+    "sourceVersion": 101,
+    "lastSynced": "2026-10-26"
   }
 }

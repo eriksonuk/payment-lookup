@@ -463,6 +463,16 @@
           "fd": "yes"
         },
         {
+          "method": "Card Deposit Transgran",
+          "type": "P2P",
+          "provider": "Paystar",
+          "minD": 5,
+          "maxD": 3000,
+          "minW": 15,
+          "maxW": 3000,
+          "fd": "yes"
+        },
+        {
           "method": "VISA Mastercard Withdrawal",
           "type": "Direct card payments",
           "provider": "Interkassa",
@@ -697,7 +707,7 @@
   "_meta": {
     "source": "Cashier Operations: PSP Deposits, Withdrawals & Limits (page 75333720)",
     "sourcePageId": "75333720",
-    "sourceVersion": 102,
-    "lastSynced": "2026-10-30"
+    "sourceVersion": 103,
+    "lastSynced": "2026-11-04"
   }
 }

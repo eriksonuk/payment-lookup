@@ -416,11 +416,41 @@
           "fd": "yes"
         },
         {
-          "method": "Card Deposit Transgran",
+          "method": "Card Deposit",
           "type": "P2P",
           "provider": "Paystar",
+          "minD": 25,
+          "maxD": 1100,
+          "minW": 15,
+          "maxW": 3000,
+          "fd": "yes"
+        },
+        {
+          "method": "Transgran",
+          "type": "P2P",
+          "provider": "Paystar",
+          "minD": 10,
+          "maxD": 2200,
+          "minW": 15,
+          "maxW": 3000,
+          "fd": "yes"
+        },
+        {
+          "method": "Kaspi",
+          "type": "P2P",
+          "provider": "Paystar",
+          "minD": 10,
+          "maxD": 2200,
+          "minW": 15,
+          "maxW": 3000,
+          "fd": "yes"
+        },
+        {
+          "method": "Card Deposit",
+          "type": "ECOM",
+          "provider": "Paystar",
           "minD": 5,
-          "maxD": 3000,
+          "maxD": 1200,
           "minW": 15,
           "maxW": 3000,
           "fd": "yes"
@@ -563,7 +593,7 @@
   "_meta": {
     "source": "Cashier Operations: PSP Deposits, Withdrawals & Limits (page 75333720)",
     "sourcePageId": "75333720",
-    "sourceVersion": 104,
-    "lastSynced": "2026-11-11"
+    "sourceVersion": 106,
+    "lastSynced": "2026-11-16"
   }
 }

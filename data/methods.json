@@ -43,14 +43,6 @@
           "fd": "yes"
         },
         {
-          "method": "Mobile Top-Up",
-          "type": "Transfer via phone number",
-          "provider": "Paystar",
-          "minD": 5,
-          "maxD": 70,
-          "fd": "yes"
-        },
-        {
           "method": "Sberpay",
           "type": "Transfer via QR",
           "provider": "Paystar",
@@ -136,6 +128,14 @@
           "provider": "Paystar",
           "minD": 15,
           "maxD": 500,
+          "fd": "conditional"
+        },
+        {
+          "method": "Ozon",
+          "type": "Transfer via phone number CIS",
+          "provider": "Paystar",
+          "minD": 15,
+          "maxD": 600,
           "fd": "conditional"
         },
         {
@@ -593,7 +593,7 @@
   "_meta": {
     "source": "Cashier Operations: PSP Deposits, Withdrawals & Limits (page 75333720)",
     "sourcePageId": "75333720",
-    "sourceVersion": 106,
-    "lastSynced": "2026-11-16"
+    "sourceVersion": 107,
+    "lastSynced": "2026-11-19"
   }
 }

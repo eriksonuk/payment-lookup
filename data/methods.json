@@ -54,7 +54,7 @@
           "method": "Sberpay SBP",
           "type": "Transfer via phone number CIS",
           "provider": "Paystar",
-          "minD": 15,
+          "minD": 5,
           "maxD": 1300,
           "fd": "yes"
         },
@@ -593,7 +593,7 @@
   "_meta": {
     "source": "Cashier Operations: PSP Deposits, Withdrawals & Limits (page 75333720)",
     "sourcePageId": "75333720",
-    "sourceVersion": 107,
-    "lastSynced": "2026-11-19"
+    "sourceVersion": 108,
+    "lastSynced": "2026-11-20"
   }
 }
